@@ -3,11 +3,11 @@
     "description": "addons package for thinkphp",
     "homepage": "https://github.com/placefile/thinkphp-addons-tp5",
     "license": "Apache-2.0",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "authors": [
         {
             "name": "Nopost",
-            "email": "nopost@qq.net"
+            "email": "nopost@qq.com"
         }
     ],
     "support": {
