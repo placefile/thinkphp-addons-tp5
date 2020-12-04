@@ -1,0 +1,34 @@
+{
+    "name": "placefile/thinkphp-addons-tp5",
+    "description": "addons package for thinkphp",
+    "homepage": "https://github.com/placefile/thinkphp-addons-tp5",
+    "license": "Apache-2.0",
+    "version": "1.0.0",
+    "authors": [
+        {
+            "name": "Nopost",
+            "email": "nopost@qq.net"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/placefile/thinkphp-addons-tp5/issues"
+    },
+    "require": {
+        "php": ">=7.0.0",
+        "nelexa/zip": "^3.3",
+        "symfony/var-exporter": "^4.4.13"
+    },
+    "autoload": {
+        "psr-4": {
+            "think\\": "src/"
+        },
+        "files": [
+            "src/common.php"
+        ]
+    },
+    "extra": {
+        "think-config": {
+            "addons": "src/config.php"
+        }
+    }
+}
