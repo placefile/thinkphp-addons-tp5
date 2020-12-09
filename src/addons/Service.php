@@ -34,12 +34,11 @@ class Service
         $tmpFile = $addonsTempDir . $name . ".zip";
         try {
             $client = self::getClient();
-            $response = $client->get('/addon/download', ['query' => array_merge(['name' => $name], $extend)]);
+            $response = $client->get('/api/addon/download', ['query' => array_merge(['name' => $name], $extend)]);
             $body = $response->getBody();
             $content = $body->getContents();
             if (substr($content, 0, 1) === '{') {
                 $json = (array)json_decode($content, true);
-
                 //如果传回的是一个下载链接,则再次下载
                 if ($json['data'] && isset($json['data']['url'])) {
                     $response = $client->get($json['data']['url']);
@@ -49,6 +48,8 @@ class Service
                     //下载返回错误，抛出异常
                     throw new AddonException($json['msg'], $json['code'], $json['data']);
                 }
+            }else{
+                throw new Exception("Addon package download failed"); 
             }
         } catch (TransferException $e) {
             throw new Exception("Addon package download failed");
@@ -156,11 +157,11 @@ class Service
             $extend['data'] = $zip->getArchiveComment();
             $extend['unknownsources'] = config('app_debug') && config('site.unknownsources');
             $extend['zhversion'] = config('site.zhversion');
-	    $extend['serialnum'] = config('site.serialnum');
-	    $extend['zhsysname'] = config('site.zhsysname');    
-	    $params = array_merge($config, $extend);
+            $extend['serialnum'] = config('site.serialnum');
+            $extend['zhsysname'] = config('site.zhsysname');
+            $params = array_merge($config, $extend);
             // 压缩包验证、版本依赖判断
-            Service::valid($params);
+            //Service::valid($params);
 
             //创建插件目录
             @mkdir($newAddonDir, 0755, true);
@@ -226,7 +227,7 @@ class Service
             $multipart[] = ['name' => $name, 'contents' => $value];
         }
         try {
-            $response = $client->post('/addon/valid', ['multipart' => $multipart]);
+            $response = $client->post('/api/addon/valid', ['multipart' => $multipart]);
             $content = $response->getBody()->getContents();
         } catch (TransferException $e) {
             throw new Exception("Network error");
